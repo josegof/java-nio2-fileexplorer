@@ -66,14 +66,24 @@ public class FileSystemExplorer {
     public void listFilesOrderByModificationData() {
         File directory = this.path.toFile();
         File[] directoryFileContent = directory.listFiles();
-        Arrays.sort(directoryFileContent, new Comparator<File>() {
-            @Override
-            public int compare(File f1, File f2){
-                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
-            }
-        });
+        if (directoryFileContent == null) {
+            System.out.println("Nenhum resultado encontrado");
+            return;
+        }
+
+        //Arrays.sort(directoryFileContent, new Comparator<File>() {
+        //    @Override
+        //    public int compare(File f1, File f2){
+        //        return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+        //    }
+        //});
+
+        Arrays.sort(directoryFileContent, Comparator.comparingLong(File::lastModified);
 
         for (File file : directoryFileContent) {
+            if (file.isHidden()) {
+                continue;
+            }
             String fileName = file.getName();
             FileTime lastModified = FileTime.fromMillis(file.lastModified());
             System.out.printf("[%s] %s\n", lastModified.toString(), fileName);
