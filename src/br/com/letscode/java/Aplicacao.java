@@ -18,7 +18,8 @@ public class Aplicacao {
         final var path = this.lerCaminhoParaExplorer();
         this.fileSystemExplorer = new FileSystemExplorer(path);
         //this.apresentarResumo();
-        this.buscarArquivosPorExtensao();
+        //this.buscarArquivosPorExtensao();
+        this.listFilesOrderByModificationDate();
     }
 
     private void imprimirCabecalho(){
@@ -39,10 +40,15 @@ public class Aplicacao {
     }
 
     private void buscarArquivosPorExtensao() {
-        System.out.println("Informe uma extensão para filtrar o conteúdo desse diretório. ");
+        System.out.println("Informe uma extensão para filtrar o conteúdo desse diretório. (Ex: pdf)");
         Scanner scanner = new Scanner(System.in);
         final var extension = scanner.nextLine();
         fileSystemExplorer.filterFilesWithExtension(extension);
+    }
+
+    private void listFilesOrderByModificationDate() {
+        System.out.println("Conteúdo do diretório ordenado por Data de Modificação");
+        fileSystemExplorer.listFilesOrderByModificationData();
     }
 
 }

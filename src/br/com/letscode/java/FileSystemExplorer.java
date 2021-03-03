@@ -5,8 +5,13 @@ import static java.nio.file.Files.newDirectoryStream;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileTime;
+import java.util.Arrays;
+import java.util.Comparator;
 
 public class FileSystemExplorer {
 
@@ -55,6 +60,23 @@ public class FileSystemExplorer {
         }
         for (File f : matchingFiles){
             System.out.println(f.getParent()+": "+f.getName());
+        }
+    }
+
+    public void listFilesOrderByModificationData() {
+        File directory = this.path.toFile();
+        File[] directoryFileContent = directory.listFiles();
+        Arrays.sort(directoryFileContent, new Comparator<File>() {
+            @Override
+            public int compare(File f1, File f2){
+                return Long.valueOf(f1.lastModified()).compareTo(f2.lastModified());
+            }
+        });
+
+        for (File file : directoryFileContent) {
+            String fileName = file.getName();
+            FileTime lastModified = FileTime.fromMillis(file.lastModified());
+            System.out.printf("[%s] %s\n", lastModified.toString(), fileName);
         }
     }
 }
